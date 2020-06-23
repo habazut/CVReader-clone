@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <TimerOne.h>
+#ifdef RAILCOM
 #include <TimerThree.h>
+#endif
 
 #include "Hardware.h"
 #include "Config.h"
@@ -47,20 +49,22 @@ int Hardware::getCurrentMilliamps(bool isMainTrack) {
 }
 
 void Hardware::setCallback(int duration, void (*isr)()) {
-  Timer3.initialize(duration);
-  Timer3.disablePwm(TIMER3_A_PIN);
-  Timer3.disablePwm(TIMER3_B_PIN);
-  Timer3.attachInterrupt(isr);
-}
-
-void Hardware::setSingleCallback(int duration, void (*isr)()) {
   Timer1.initialize(duration);
   Timer1.disablePwm(TIMER1_A_PIN);
   Timer1.disablePwm(TIMER1_B_PIN);
   Timer1.attachInterrupt(isr);
 }
 
-void Hardware::resetSingleCallback(int duration) {
-  if (duration==0) Timer1.stop();
-  else Timer1.initialize(duration);
+#ifdef RAILCOM
+void Hardware::setSingleCallback(int duration, void (*isr)()) {
+  Timer2.initialize(duration);
+  Timer2.disablePwm(TIMER2_A_PIN);
+  Timer2.disablePwm(TIMER2_B_PIN);
+  Timer2.attachInterrupt(isr);
 }
+
+void Hardware::resetSingleCallback(int duration) {
+  if (duration==0) Timer2.stop();
+  else Timer2.initialize(duration);
+}
+#endif

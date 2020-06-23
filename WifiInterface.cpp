@@ -1,3 +1,4 @@
+#ifdef WIFI
 #include "WifiInterface.h"
 #include "Config.h"
 #include "DIAG.h"
@@ -134,3 +135,4 @@ void WifiInterface::loop() {
     }
     loopstate=0;  // go back to looking for +IPD 
     }
+#endif

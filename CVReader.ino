@@ -66,6 +66,8 @@ void loop() {
   // This line passes input on Serial to the DCCEXParser
   serialParser.loop(Serial);
 
+#ifdef WIFI
   // This line passes input on Wifi to another DCCEXParser
   if (WIFI_PORT>0) WifiInterface::loop();
+#endif
 }
